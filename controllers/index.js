@@ -1,5 +1,6 @@
 const { Movie } = require('../database/models');
 
+// Obtener todas las películas
 const getMovies = async (req, res) => {
   try {
     const movies = await Movie.findAll();
@@ -9,16 +10,18 @@ const getMovies = async (req, res) => {
   }
 };
 
+// Crear una nueva película
 const createMovie = async (req, res) => {
   try {
-    const { title, director, year, synopsis } = req.body;
-    const movie = await Movie.create({ title, director, year, synopsis });
+    const { title, director, year, synopsis, imageUrl } = req.body; // <-- incluimos imageUrl
+    const movie = await Movie.create({ title, director, year, synopsis, imageUrl }); // <-- también lo guardamos
     res.status(201).json(movie);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
 };
 
+// Eliminar película por ID
 const deleteMovie = async (req, res) => {
   try {
     const id = req.params.id;
@@ -29,4 +32,8 @@ const deleteMovie = async (req, res) => {
   }
 };
 
-module.exports = { getMovies, createMovie, deleteMovie };
+module.exports = {
+  getMovies,
+  createMovie,
+  deleteMovie
+};
